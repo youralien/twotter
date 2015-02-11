@@ -8,13 +8,39 @@ var index = {};
 // GETS
 
 index.home = function(req, res) {
-	var sess = req.session;
-	if (sess.name) {
-		console.log(sess.name)
-		res.send(sess.name)
-	} else {
-		res.render('home');
-	}
+	Twoot.find({})
+		.populate('author')
+		.limit(25)
+		.sort('-createdOn')
+		.exec(function(err, twoots) {
+			// user logged in
+			if (err) {
+				res.status(500).send({'error': err});
+				console.error(err);
+			} else {
+				var locals = {}
+				console.log('twoots: \n' + twoots);
+				locals.twoots = twoots;
+
+				// if logged in, set name and loggedin local variables
+				if (req.session.name) {
+					locals.name = req.session.name;
+					locals.loggedin = true;
+				
+				} else {
+					locals.loggedin = false;
+				}
+
+				// if ajax send only local data
+				if (req.xhr) {
+					res.status(200).json(locals);
+				
+				// else render entire page with local data
+				} else {
+					res.status(200).render('home', locals);
+				}
+			}
+		});	
 };
 
 
@@ -34,6 +60,26 @@ function enableSession(req, res, user) {
 
 // POSTS
 
+index.createTwoot = function(req, res) {
+	author = req.session._id;
+	text = req.body.text;
+
+	new_twoot = new Twoot({
+		'author': author,
+		'text': text
+	})
+
+	new_twoot.save(function(err, twoot, numAffected) {
+		if (err || (numAffected !== 1)) {
+			res.status(500).send({'error': err});
+			console.log(err);
+		} else {
+			console.log('Created New Twoot!')
+			res.status(200).json(twoot);
+		}
+	});
+};
+
 index.login = function(req,res) {
 	var name = req.body.name;
 	User.findOne({'name': name}, function(err,user) {
@@ -41,7 +87,6 @@ index.login = function(req,res) {
 			res.status(500).send({'error': err});
 			console.error(err);
 		} else {
-			console.log(user)
 			// User already in the system
 			if (user) {
 				console.log('User already in the System');

@@ -1,0 +1,17 @@
+/*using proper french quotes*/
+/*http://webdesign.tutsplus.com/articles/start-using-quotation-marks-the-correct-way--webdesign-16905*/
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+q:before {
+    content: open-quote;
+}
+q:after {
+    content: no-close-quote;
+}
+
+html[lang="fr"] q {
+  quotes: "\00ab" "\00bb";
+}
+

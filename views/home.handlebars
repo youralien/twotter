@@ -1,1 +1,10 @@
 {{> header}}
+<div class='twoot-col col-md-8'>
+{{#if loggedin}}
+	{{> twoot_form}}
+{{/if}}
+	{{> twoot_list}}
+</div>
+<div class='user-col col-md-4'>
+	{{> user_list}}
+</div>

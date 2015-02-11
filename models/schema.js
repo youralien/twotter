@@ -7,10 +7,10 @@ var userSchema = new Schema({
 });
 
 var twootSchema = new Schema({
-	author: { type: Schema.Types.ObjectId, ref: 'User' },
+	author: { type: Schema.Types.ObjectId, ref: 'twotterUser' },
 	text: String,
-	time: { type : Date, default: Date.now } 
-}) 
+	createdOn: { type : Date, default: Date.now } 
+});
 
 module.exports.User = mongoose.model('twotterUser', userSchema);
-module.exports.Twoot = mongoose.model('Twoot', twootSchema)
+module.exports.Twoot = mongoose.model('Twoot', twootSchema);
