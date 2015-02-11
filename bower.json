@@ -1,0 +1,20 @@
+{
+  "name": "twotter",
+  "version": "0.0.0",
+  "homepage": "https://github.com/youralien/twotter",
+  "authors": [
+    "github.com/youralien"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.2.2"
+  }
+}
