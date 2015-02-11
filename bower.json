@@ -10,11 +10,13 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "public/components",
     "test",
     "tests"
   ],
   "dependencies": {
-    "bootstrap-material-design": "~0.2.2"
+    "bootstrap-material-design": "~0.2.2",
+    "bootstrap": "~3.3.2",
+    "jquery": "~2.1.3"
   }
 }
