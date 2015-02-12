@@ -11,8 +11,10 @@ q:after {
     content: no-close-quote;
 }
 
+@import url(http://fonts.googleapis.com/css?family=Raleway);
 html[lang="fr"] q {
   quotes: "\00ab" "\00bb";
+  font-family: 'Raleway', sans-serif;
 }
 
 /*right justified twoot author*/
