@@ -15,3 +15,13 @@ html[lang="fr"] q {
   quotes: "\00ab" "\00bb";
 }
 
+/*right justified twoot author*/
+.author-signature {
+	text-align: right;
+}
+
+/*center justified users*/
+.user-selector {
+	text-align: center;
+}
+

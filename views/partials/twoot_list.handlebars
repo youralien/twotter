@@ -1,8 +1,10 @@
 {{#each twoots}}
 <div class='panel panel-default'>
 	<div class='panel-body'>
-	<q>{{this.text}}</q>
-	-- {{this.author.name}}
+		<q>{{this.text}}</q>
+	</div>
+	<div class='panel-footer author-signature'>
+	{{this.author.name}}
 	</div>
 </div>
 {{/each}}

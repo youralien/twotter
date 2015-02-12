@@ -31,14 +31,26 @@ index.home = function(req, res) {
 					locals.loggedin = false;
 				}
 
-				// if ajax send only local data
-				if (req.xhr) {
-					res.status(200).json(locals);
-				
-				// else render entire page with local data
-				} else {
-					res.status(200).render('home', locals);
-				}
+				// find all users
+
+				User.find({}, function(err, users) {
+					if (err) {
+						res.status(500).send({'error': err});
+						console.error(err);
+					} else {
+						locals.users = users;
+						
+						// if ajax send only local data
+						if (req.xhr) {
+							res.status(200).json(locals);
+						
+						// else render entire page with local data
+						} else {
+							res.status(200).render('home', locals);
+						}
+
+					}
+				}); 
 			}
 		});	
 };
