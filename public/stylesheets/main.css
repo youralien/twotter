@@ -25,3 +25,8 @@ html[lang="fr"] q {
 	text-align: center;
 }
 
+.main-content {
+	max-width: 750px;
+	margin: 0 auto;
+}
+

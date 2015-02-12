@@ -25,7 +25,7 @@ $('form#twoot').submit( function(e) {
 	e.preventDefault();
 
 	// Get some values from elements on the page:
-	var $form = $( this )
+	var $form = $( this );
 	var text = $form.find( "textarea" ).val();
     var url = $form.attr( "action" );
 

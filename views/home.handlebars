@@ -1,10 +1,12 @@
-{{> header}}
-<div class='twoot-col col-md-8'>
-{{#if loggedin}}
-	{{> twoot_form}}
-{{/if}}
-	{{> twoot_list}}
-</div>
-<div class='user-col col-md-4'>
-	{{> user_list}}
+<div class='main-content'>
+	{{> header}}
+	<div class='twoot-col col-xs-9'>
+	{{#if loggedin}}
+		{{> twoot_form}}
+	{{/if}}
+		{{> twoot_list}}
+	</div>
+	<div class='user-col col-xs-3'>
+		{{> user_list}}
+	</div>
 </div>
