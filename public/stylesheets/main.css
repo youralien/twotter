@@ -32,4 +32,9 @@ html[lang="fr"] q {
 
 .list-group .list-group-item {
 	padding: 10px 15px 10px 15px;
+	border-color: #333333;
+}
+
+.list-group-item-danger {
+	outline-color: red;
 }

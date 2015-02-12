@@ -1,6 +1,6 @@
 <div class='list-group'>
 {{#each twoots}}
-	<blockquote class="pull-left list-group-item">
+	<blockquote class="pull-left list-group-item" name='{{this.author.name}}'>
 	    <p>{{this.text}}</p>
 	    <small>{{this.author.name}}</small>
 	</blockquote>

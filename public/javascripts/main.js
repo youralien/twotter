@@ -40,3 +40,14 @@ $('form#twoot').submit( function(e) {
     	.error(onError);
     	
 });
+
+$('.user-selector').click( function(e) {
+	$userSelector = $( this );
+
+	// extract information from element
+	var name = $userSelector.attr('name');
+
+	// (de)/highlight all the things
+	$(".list-group-item[name='"+name+"']").toggleClass('list-group-item-danger');
+	
+});
