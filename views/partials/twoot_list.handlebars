@@ -1,10 +1,8 @@
+<div class='list-group'>
 {{#each twoots}}
-<div class='panel panel-default'>
-	<div class='panel-body'>
-		<q>{{this.text}}</q>
-	</div>
-	<div class='panel-footer author-signature'>
-	{{this.author.name}}
-	</div>
-</div>
+	<blockquote class="pull-left list-group-item">
+	    <p>{{this.text}}</p>
+	    <small>{{this.author.name}}</small>
+	</blockquote>
 {{/each}}
+</div>
