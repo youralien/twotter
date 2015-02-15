@@ -3,26 +3,25 @@ function onError() {
 	console.error('Somthing went wrong!')
 }
 
-$('form#login').submit( function(e) {
-	e.preventDefault();
+function loginFormHandler(event) {
+	event.preventDefault();
 
 	// Get some values from elements on the page:
-	var $form = $( this )
-	var name = $form.find( "input[name='username']" ).val()
+	var $form = $( this );
+	var name = $form.find( "input[name='username']" ).val();
     var url = $form.attr( "action" );
 
-	login = $.post(url, {'name': name})
+	login = $.post(url, {'name': name});
 		
 	login.done(function(data) {
-		alert('Welcome ' + data.name)
+		alert('Welcome ' + data.name);
 	});
 
-	login.error(onError)
-    
-});
+	login.error(onError);
+}
 
-$('form#twoot').submit( function(e) {
-	e.preventDefault();
+function twootFormHandler(event) {
+	event.preventDefault();
 
 	// Get some values from elements on the page:
 	var $form = $( this );
@@ -38,10 +37,9 @@ $('form#twoot').submit( function(e) {
     	debugger;
     })
     	.error(onError);
-    	
-});
+}
 
-$('.user-selector').click( function(e) {
+function userSelectorHandler() {
 	$userSelector = $( this );
 
 	// extract information from element
@@ -49,5 +47,8 @@ $('.user-selector').click( function(e) {
 
 	// (de)/highlight all the things
 	$(".list-group-item[name='"+name+"']").toggleClass('list-group-item-danger');
-	
-});
+}
+
+$('form#login').submit(loginFormHandler);
+$('form#twoot').submit(twootFormHandler);
+$('.user-selector').click(userSelectorHandler);
