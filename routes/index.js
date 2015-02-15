@@ -13,40 +13,38 @@ index.home = function(req, res) {
 		.limit(25)
 		.sort('-createdOn')
 		.exec(function(err, twoots) {
-			// user logged in
 			if (err) {
 				res.status(500).send({'error': err});
 				console.error(err);
 			} else {
-				var locals = {}
+				var context = {}
 				console.log('twoots: \n' + twoots);
-				locals.twoots = twoots;
+				context.twoots = twoots;
 
 				// if logged in, set name and loggedin local variables
 				if (req.session.name) {
-					locals.name = req.session.name;
-					locals.loggedin = true;
+					context.name = req.session.name;
+					context.loggedin = true;
 				
 				} else {
-					locals.loggedin = false;
+					context.loggedin = false;
 				}
 
 				// find all users
-
 				User.find({}, function(err, users) {
 					if (err) {
 						res.status(500).send({'error': err});
 						console.error(err);
 					} else {
-						locals.users = users;
+						context.users = users;
 						
 						// if ajax send only local data
 						if (req.xhr) {
-							res.status(200).json(locals);
+							res.status(200).json(context);
 						
 						// else render entire page with local data
 						} else {
-							res.status(200).render('home', locals);
+							res.status(200).render('home', context);
 						}
 
 					}
