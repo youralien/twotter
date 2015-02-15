@@ -13,8 +13,9 @@ function loginFormHandler(event) {
 
 	login = $.post(url, {'name': name});
 		
-	login.done(function(data) {
-		alert('Welcome ' + data.name);
+	login.done(function(context) {
+		var twoot_form = Handlebars.templates['twoot_form'];
+		$('.twoot-col').prepend(twoot_form(context))
 	});
 
 	login.error(onError);
