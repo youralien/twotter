@@ -1,8 +1,7 @@
-<div class='list-group'>
+<div class='twoot-list list-group'>
 {{#each twoots}}
-	<blockquote class="pull-left list-group-item col-xs-12" name='{{this.author.name}}'>
-	    <p>{{this.text}}</p>
-	    <small>{{this.author.name}}</small>
-	</blockquote>
+	{{#with this}}
+	{{> twoot_blockquote}}
+	{{/with}}
 {{/each}}
 </div>

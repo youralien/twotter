@@ -15,9 +15,13 @@ function loginFormHandler(event) {
 		
 	login.done(function(context) {
 		var twoot_form = Handlebars.templates['twoot_form'];
-		$('.twoot-col').prepend(twoot_form(context))
-	});
 
+		$('.twoot-col').prepend(twoot_form(context))
+
+		// register twoot-form event listner
+		$('#twoot-form').submit(twootFormHandler);
+	})
+;
 	login.error(onError);
 }
 
@@ -34,8 +38,8 @@ function twootFormHandler(event) {
     };
 
     $.post(url,	twoot, function(twoot) {
-    	alert('Twoot posted');
-    	debugger;
+    	twoot_blockquote = Handlebars.templates['twoot_blockquote'];
+    	$('.twoot-list').prepend(twoot_blockquote(twoot));
     })
     	.error(onError);
 }
@@ -50,6 +54,6 @@ function userSelectorHandler() {
 	$(".list-group-item[name='"+name+"']").toggleClass('list-group-item-danger');
 }
 
-$('form#login').submit(loginFormHandler);
-$('form#twoot').submit(twootFormHandler);
+$('#login-form').submit(loginFormHandler);
+$('#twoot-form').submit(twootFormHandler);
 $('.user-selector').click(userSelectorHandler);

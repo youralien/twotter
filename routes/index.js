@@ -18,7 +18,6 @@ index.home = function(req, res) {
 				console.error(err);
 			} else {
 				var context = {}
-				console.log('twoots: \n' + twoots);
 				context.twoots = twoots;
 
 				// if logged in, set name and loggedin local variables
@@ -77,15 +76,25 @@ index.createTwoot = function(req, res) {
 	new_twoot = new Twoot({
 		'author': author,
 		'text': text
-	})
+	});
 
 	new_twoot.save(function(err, twoot, numAffected) {
 		if (err || (numAffected !== 1)) {
 			res.status(500).send({'error': err});
 			console.log(err);
 		} else {
-			console.log('Created New Twoot!')
-			res.status(200).json(twoot);
+			console.log('Created New Twoot!');
+			Twoot.findOne({_id: twoot._id})
+				.populate('author')
+				.exec(function(err,populated_twoot) {
+					if (err) {
+						res.status(500).send({'error': err});
+						console.log(err);
+					} else {
+						console.log(populated_twoot);
+						res.status(200).json(populated_twoot);
+					}
+				})
 		}
 	});
 };
