@@ -1,4 +1,7 @@
-<blockquote class="pull-left list-group-item col-xs-12" name='{{author.name}}'>
-    <p>{{text}}</p>
-    <small>{{author.name}}</small>
+<blockquote class="pull-left list-group-item col-xs-12" name='{{author.name}}' id="{{_id}}">
+    <p class='blockquote-body'>
+    	{{text}}	
+    </p>
+    <small class='blockquote-author author-signature'>{{author.name}}</small>
+    <img alt='Delete' class='delete-button' src='/images/editing-delete-icon.png' hidden></img>
 </blockquote>

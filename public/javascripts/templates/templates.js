@@ -26,20 +26,22 @@ templates['logout_form'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":fun
     + "</legend>\n	<button type='submit' class='btn btn-submit form-control'>*   Sign Out   *</button>\n</form>\n";
 },"useData":true});
 templates['twoot_blockquote'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    var stack1, helper, alias1=this.lambda, alias2=this.escapeExpression;
+    var stack1, helper, alias1=this.lambda, alias2=this.escapeExpression, alias3=helpers.helperMissing, alias4="function";
 
   return "<blockquote class=\"pull-left list-group-item col-xs-12\" name='"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.author : depth0)) != null ? stack1.name : stack1), depth0))
-    + "'>\n    <p>"
-    + alias2(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"text","hash":{},"data":data}) : helper)))
-    + "</p>\n    <small>"
+    + "' id=\""
+    + alias2(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(depth0,{"name":"_id","hash":{},"data":data}) : helper)))
+    + "\">\n    <p class='blockquote-body'>\n    	"
+    + alias2(((helper = (helper = helpers.text || (depth0 != null ? depth0.text : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(depth0,{"name":"text","hash":{},"data":data}) : helper)))
+    + "	\n    </p>\n    <small class='author-signature'>"
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.author : depth0)) != null ? stack1.name : stack1), depth0))
-    + "</small>\n</blockquote>";
+    + "</small>\n    <img alt='Delete' class='delete-button' src='/images/editing-delete-icon.png' hidden></img>\n</blockquote>";
 },"useData":true});
 templates['twoot_form'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper;
 
-  return "<form id='twoot-form' action='/' class='form-horizontal'>\n	<legend>Twoot! #YouOnlyTwootOnce</legend>\n	<textarea placeholder='Your Twoot Here' class='form-control' required='true'></textarea>\n	<div class='panel-footer author-signature' name='author'>"
+  return "<form id='twoot-form' action='/create' class='form-horizontal'>\n	<legend>Twoot! #YouOnlyTwootOnce</legend>\n	<textarea placeholder='Your Twoot Here' class='form-control' required='true'></textarea>\n	<div class='panel-footer author-signature' name='author'>"
     + this.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0,{"name":"name","hash":{},"data":data}) : helper)))
     + "</div>\n	<button type='submit' class='btn btn-success btn-raised form-control'>Submit</button>\n</form>";
 },"useData":true});

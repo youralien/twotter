@@ -38,3 +38,8 @@ html[lang="fr"] q {
 .list-group-item-danger {
 	outline-color: red;
 }
+
+img.delete-button{
+	width: 1em;
+	height: 1em;
+}

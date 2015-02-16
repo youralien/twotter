@@ -33,7 +33,8 @@ app.get('/', index.home);
 
 app.post('/login', index.login);
 app.post('/logout', index.logout);
-app.post('/', index.createTwoot);
+app.post('/create', index.createTwoot);
+app.post('/delete', index.deleteTwoot);
 
 var PORT = process.env.PORT || 3000;
 app.listen(PORT);

@@ -25,7 +25,7 @@ function enableSession(req, res, user) {
 			);
 		}
 	});
-}
+};
 
 // GETS
 
@@ -78,10 +78,10 @@ index.home = function(req, res) {
 // POSTS
 
 index.createTwoot = function(req, res) {
-	author = req.session._id;
-	text = req.body.text;
+	var author = req.session._id;
+	var text = req.body.text;
 
-	new_twoot = new Twoot({
+	var new_twoot = new Twoot({
 		'author': author,
 		'text': text
 	});
@@ -137,13 +137,29 @@ index.login = function(req,res) {
 			}
 		}
 	});
-}
+};
 
 index.logout = function(req, res) {
 	// clear the session
 	req.session.name = '';
 	req.session._id = '';
 	res.status(200).end();
-}
+};
+
+// DELETES
+
+index.deleteTwoot = function(req, res) {
+	var author = req.body._id;
+	Twoot.findOne({_id: author})
+		.remove(function(err,numAffected) {
+			if (err || (numAffected !== 1)) {
+				console.log(err);
+				res.status(500).send({'error': err});
+			} else {		
+				console.log('Removed a twoot');
+				res.end();
+			}
+		});
+};
 
 module.exports = index;
