@@ -35,8 +35,12 @@ function makeTwootForm(context) {
 }
 
 function makeUserList(context) {
+	// update the user list with any new users
 	var user_list = Handlebars.templates['user_list'];
 	$('.user-col').html(user_list(context));
+
+	// register the user-list event listener
+	$('.user-selector').click(userSelectorHandler);
 }
 
 function makeLogoutForm(context) {
