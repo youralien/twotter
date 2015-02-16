@@ -9,7 +9,7 @@ function loginFormHandler(event) {
 	// Get some values from elements on the page:
 	var $form = $( this );
 	var name = $form.find( "input[name='username']" ).val();
-  var url = $form.attr( "action" );
+	var url = $form.attr( "action" );
 
 	login = $.post(url, {'name': name});
 		
@@ -20,6 +20,7 @@ function loginFormHandler(event) {
 
 function loginSuccess(context) {
 	makeTwootForm(context);
+	makeUserList(context);
 	makeLogoutForm(context);
 }
 
@@ -33,6 +34,11 @@ function makeTwootForm(context) {
 	$('#twoot-form').submit(twootFormHandler);
 }
 
+function makeUserList(context) {
+	var user_list = Handlebars.templates['user_list'];
+	$('.user-col').html(user_list(context));
+}
+
 function makeLogoutForm(context) {
 	// replace login form with logout form
 	logout_form = Handlebars.templates['logout_form'];
@@ -41,6 +47,7 @@ function makeLogoutForm(context) {
 	// register logout-form event listener
 	$('#logout-form').submit(logoutFormHandler);
 }
+
 
 function logoutFormHandler(event) {
 	event.preventDefault();
@@ -79,17 +86,17 @@ function twootFormHandler(event) {
 	// Get some values from elements on the page:
 	var $form = $( this );
 	var text = $form.find( "textarea" ).val();
-    var url = $form.attr( "action" );
+	var url = $form.attr( "action" );
 
-    var twoot = {
-    	'text': text
-    };
+	var twoot = {
+		'text': text
+	};
 
-    $.post(url,	twoot, function(twoot) {
-    	twoot_blockquote = Handlebars.templates['twoot_blockquote'];
-    	$('.twoot-list').prepend(twoot_blockquote(twoot));
-    })
-    	.error(onError);
+	$.post(url,	twoot, function(twoot) {
+		twoot_blockquote = Handlebars.templates['twoot_blockquote'];
+		$('.twoot-list').prepend(twoot_blockquote(twoot));
+	})
+		.error(onError);
 }
 
 function userSelectorHandler() {

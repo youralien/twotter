@@ -5,6 +5,28 @@ var Twoot = schema.Twoot;
 
 var index = {};
 
+// HELPERS
+function enableSession(req, res, user) {
+	req.session._id = user._id;
+	req.session.name = user.name;
+	console.log(req.session.name + ' logged in');
+	
+	User.find({}, function(err, users) {
+		if (err) {
+			res.status(500).send({'error': err});
+			console.error(err);
+		} else {
+			res.status(200).json(
+				{
+					'_id': req.session._id,
+					'name': req.session.name,
+					'users': users
+				}
+			);
+		}
+	});
+}
+
 // GETS
 
 index.home = function(req, res) {
@@ -52,20 +74,6 @@ index.home = function(req, res) {
 		});	
 };
 
-
-// POST HELPERS
-
-function enableSession(req, res, user) {
-	req.session._id = user._id;
-	req.session.name = user.name;
-	console.log(req.session.name + ' logged in')
-	res.json(
-		{
-			'_id': req.session._id,
-			'name': req.session.name
-		}
-	);
-}
 
 // POSTS
 
