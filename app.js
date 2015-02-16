@@ -32,6 +32,7 @@ app.use(session({
 app.get('/', index.home);
 
 app.post('/login', index.login);
+app.post('/logout', index.logout);
 app.post('/', index.createTwoot);
 
 var PORT = process.env.PORT || 3000;

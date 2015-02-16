@@ -131,4 +131,11 @@ index.login = function(req,res) {
 	});
 }
 
+index.logout = function(req, res) {
+	// clear the session
+	req.session.name = '';
+	req.session._id = '';
+	res.status(200).end();
+}
+
 module.exports = index;
