@@ -6,13 +6,15 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var exphbs  = require('express-handlebars');
 var mongoose = require('mongoose');
-var config = require('./oauth.js');
 var passport = require('passport');
+var config = require('./oauth.js');
 var fbAuth = require('./authentication.js');
 var User = require('./models/schema.js').User;
+var ensureAuthenticated = require('./routes/ensureAuthenticated');
 
 // routes
 var index = require('./routes/index');
+var twoot = require('./routes/twoot');
 
 // mongo
 var mongoURI = process.env.MONGOURI || "mongodb://localhost/test";
@@ -57,27 +59,18 @@ app.use(passport.session());
 app.get('/', index.home);
 app.get('/account', ensureAuthenticated, index.account);
 
-app.get('/auth/facebook',
-	passport.authenticate('facebook'),
-	function(req, res){
-});
-app.get('/auth/facebook/callback',
-	passport.authenticate('facebook', { failureRedirect: '/' }),
-	function(req, res) {
-		res.redirect('/account');
-});
-app.get('/logout', index.FBlogout);
+app.get('/auth/facebook', 
+	passport.authenticate('facebook'));
 
-app.post('/create', index.createTwoot);
-app.post('/delete', index.deleteTwoot);
+app.get('/auth/facebook/callback',
+	passport.authenticate('facebook', { failureRedirect: '/',
+										successRedirect: '/account' }));
+
+app.get('/logout', index.logout);
+
+app.post('/create', twoot.create);
+app.post('/delete', twoot.delete);
 
 
 var PORT = process.env.PORT || 3000;
 app.listen(PORT);
-
-// test authentication
-function ensureAuthenticated(req, res, next) {
-	if (req.isAuthenticated()) { return next(); }
-	res.redirect('/')
-}
-
