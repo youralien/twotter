@@ -42,4 +42,5 @@ html[lang="fr"] q {
 img.delete-button{
 	width: 1em;
 	height: 1em;
+	cursor: pointer;
 }
