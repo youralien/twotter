@@ -5,91 +5,35 @@ var Twoot = schema.Twoot;
 
 var index = {};
 
-// HELPERS
-function enableSession(req, res, user) {
-	req.session._id = user._id;
-	req.session.name = user.name;
-	console.log(req.session.name + ' logged in');
-	
-	User.find({}, function(err, users) {
-		if (err) {
-			res.status(500).send({'error': err});
-			console.error(err);
-		} else {
-			res.status(200).json(
-				{
-					'_id': req.session._id,
-					'name': req.session.name,
-					'users': users
-				}
-			);
-		}
-	});
-};
-
 // GETS
 
 index.home = function(req, res) {
-	Twoot.find({})
-		.populate('author')
-		.limit(25)
-		.sort('-createdOn')
-		.exec(function(err, twoots) {
-			if (err) {
-				res.status(500).send({'error': err});
-				console.error(err);
-			} else {
-				var context = {}
-				context.twoots = twoots;
-
-				// if logged in, set name and loggedin local variables
-				if (req.session.name) {
-					context.name = req.session.name;
-					context.loggedin = true;
-				
-				} else {
-					context.loggedin = false;
-				}
-
-				// find all users
-				User.find({}, function(err, users) {
-					if (err) {
-						res.status(500).send({'error': err});
-						console.error(err);
-					} else {
-						context.users = users;
-						
-						// if ajax send only local data
-						if (req.xhr) {
-							res.status(200).json(context);
-						
-						// else render entire page with local data
-						} else {
-							res.status(200).render('home', context);
-						}
-
-					}
-				}); 
-			}
-		});	
+	getTwootsAndUsers(req, res, 'home');
 };
 
+index.account = function(req, res) {
+	User.findById(req.session.passport.user, function(err, user) {
+ 		if (err) {
+ 			res.status(500).send({'error': err});
+			console.error(err);
+ 		} else {
+ 			getTwootsAndUsers(req, res, 'account', {name: user.name});
+ 		}
+	})
+};
 
 // POSTS
 
 index.createTwoot = function(req, res) {
-	var author = req.session._id;
-	var text = req.body.text;
-
 	var new_twoot = new Twoot({
-		'author': author,
-		'text': text
+		'author': req.session.passport.user,
+		'text': req.body.text
 	});
 
 	new_twoot.save(function(err, twoot, numAffected) {
 		if (err || (numAffected !== 1)) {
 			res.status(500).send({'error': err});
-			console.log(err);
+			console.error(err);
 		} else {
 			console.log('Created New Twoot!');
 			Twoot.findOne({_id: twoot._id})
@@ -97,53 +41,18 @@ index.createTwoot = function(req, res) {
 				.exec(function(err,populated_twoot) {
 					if (err) {
 						res.status(500).send({'error': err});
-						console.log(err);
+						console.error(err);
 					} else {
-						console.log(populated_twoot);
 						res.status(200).json(populated_twoot);
 					}
-				})
-		}
-	});
-};
-
-index.login = function(req,res) {
-	var name = req.body.name;
-	User.findOne({'name': name}, function(err,user) {
-		if (err) {
-			res.status(500).send({'error': err});
-			console.error(err);
-		} else {
-			// User already in the system
-			if (user) {
-				console.log('User already in the System');
-				enableSession(req,res,user);
-
-			// Create New User		
-			} else {
-				console.log('Creating New User')
-				var new_user = new User({
-					'name': name
 				});
-				new_user.save(function(err, user, numAffected) {
-					if (err || (numAffected !== 1)) {
-						res.status(500).send({'error': err});
-						console.log(err);
-					} else {
-						console.log('Created New User!')
-						enableSession(req,res,user);
-					}
-				})
-			}
 		}
 	});
 };
 
-index.logout = function(req, res) {
-	// clear the session
-	req.session.name = '';
-	req.session._id = '';
-	res.status(200).end();
+index.FBlogout = function(req, res) {
+	req.logout();
+	res.redirect('/');
 };
 
 // DELETES
@@ -161,5 +70,46 @@ index.deleteTwoot = function(req, res) {
 			}
 		});
 };
+
+// HELPERS
+
+function getTwootsAndUsers(req, res, view, context) {
+	Twoot.find({})
+		.populate('author')
+		.limit(25)
+		.sort('-createdOn')
+		.exec(function(err, twoots) {
+			if (err) {
+				res.status(500).send({'error': err});
+				console.error(err);
+			} else {
+				// initialize context to empty if it doesn't already exist
+				context = (context) ? context : {}; 
+				
+				// add list of twoots to the context
+				context.twoots = twoots;
+
+				// find all users
+				User.find({}, function(err, users) {
+					if (err) {
+						res.status(500).send({'error': err});
+						console.error(err);
+					} else {
+						context.users = users;
+						
+						// if ajax send only local data
+						if (req.xhr) {
+							res.status(200).json(context);
+						
+						// else render entire page with local data
+						} else {
+							res.status(200).render(view, context);
+						}
+
+					}
+				}); 
+			}
+		});	
+}
 
 module.exports = index;

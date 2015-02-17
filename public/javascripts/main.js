@@ -4,25 +4,6 @@ function onError() {
 	console.error('Somthing went wrong!')
 }
 
-function loginFormHandler(event) {
-	event.preventDefault();
-
-	// Get some values from elements on the page:
-	var $form = $( this );
-	var name = $form.find( "input[name='username']" ).val();
-	var url = $form.attr( "action" );
-
-	$.post(url, {'name': name})
-		.success(loginSuccess)
-		.error(onError);
-}
-
-function loginSuccess(context) {
-	makeTwootForm(context);
-	makeUserList(context);
-	makeLogoutForm(context);
-}
-
 function makeTwootForm(context) {
 	// Display the twoot form for the logged in user
 	var twoot_form = Handlebars.templates['twoot_form'];
@@ -40,45 +21,6 @@ function makeUserList(context) {
 
 	// register the user-list event listener
 	$('.user-selector').click(userSelectorHandler);
-}
-
-function makeLogoutForm(context) {
-	// replace login form with logout form
-	logout_form = Handlebars.templates['logout_form'];
-	$('#login-form').replaceWith(logout_form(context));
-
-	// register logout-form event listener
-	$('#logout-form').submit(logoutFormHandler);
-}
-
-
-function logoutFormHandler(event) {
-	event.preventDefault();
-	
-	// Get some values from elements on the page:
-	var $form = $( this );
-  var url = $form.attr( "action" );
-
-	$.post(url, {'name': name})
-		.success(logoutSuccess)
-		.error(onError);
-}
-
-function logoutSuccess(context) {
-	// remove twoot form
-	$('#twoot-form').remove();
-	
-	// replace logout form with login form
-	makeLoginForm(context);
-}
-
-function makeLoginForm(context) {
-	// replace logout form with login form
-	login_form = Handlebars.templates['login_form'];
-	$('#logout-form').replaceWith( login_form(context));
-
-	// register logout-form event listener
-	$('#login-form').submit(loginFormHandler);
 }
 
 function twootFormHandler(event) {
@@ -138,8 +80,6 @@ function toggleDeleteButton() {
 	}
 }
 
-$('#login-form').submit(loginFormHandler);
-$('#logout-form').submit(logoutFormHandler);
 $('#twoot-form').submit(twootFormHandler);
 $('.user-selector').click(userSelectorHandler);
 $('img.delete-button').click(deleteTwootHandler);

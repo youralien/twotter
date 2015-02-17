@@ -3,7 +3,9 @@ var Schema = mongoose.Schema
 
 
 var userSchema = new Schema({
-	name: String
+	oauthID: Number,
+	name: String,
+	created: Date
 });
 
 var twootSchema = new Schema({
